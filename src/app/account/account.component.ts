@@ -1,9 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { LoggingService } from '../logging.service';
 
 @Component({
   selector: 'app-account',
   templateUrl: './account.component.html',
-  styleUrl: './account.component.css'
+  styleUrl: './account.component.css',
+  providers:[LoggingService]
 })
 export class AccountComponent {
   @Input() account!: { name: string; status: string };
@@ -13,10 +15,11 @@ export class AccountComponent {
     newStatus: string;
   }>();
 
-  constructor() {}
+  constructor(private loggingService: LoggingService) {}
 
   onSetTo(status: string) {
     this.statusChanged.emit({ id: this.id, newStatus: status });
-    console.log(`A status change occured, the new status is ${status}`);
+    this.loggingService.logStatusChanbged(status);
+    //console.log(`A status change occured, the new status is ${status}`);
   }
 }
